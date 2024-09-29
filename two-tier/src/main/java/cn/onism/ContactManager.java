@@ -26,7 +26,7 @@ public class ContactManager {
      */
     public void addContact(Contact contact) throws SQLException {
         String query = "INSERT INTO contacts (name, address, phone) VALUES (?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(query);) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, contact.getName());
             statement.setString(2, contact.getAddress());
             statement.setString(3, contact.getPhone());
@@ -43,7 +43,7 @@ public class ContactManager {
     public List<Contact> getAllContacts() throws SQLException {
         List<Contact> contacts = new ArrayList<>();
         String query = "SELECT * FROM contacts";
-        try (PreparedStatement statement = connection.prepareStatement(query);) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 Contact contact = new Contact(resultSet.getLong("id"), resultSet.getString("name"),
@@ -60,7 +60,7 @@ public class ContactManager {
     public List<Contact> getContactByName(String name) throws SQLException {
         List<Contact> contacts = new ArrayList<>();
         String query = "SELECT * FROM contacts WHERE name like  ?";
-        try (PreparedStatement statement = connection.prepareStatement(query);) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, "%" + name + "%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -83,7 +83,7 @@ public class ContactManager {
      */
     public Contact getContactById(Long id) throws SQLException {
         String query = "SELECT * FROM contacts WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query);) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -104,7 +104,7 @@ public class ContactManager {
      */
     public void updateContact(Contact contact) throws SQLException {
         String query = "UPDATE contacts SET address = ?, phone = ? ,name = ? WHERE id = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query);) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, contact.getAddress());
             statement.setString(2, contact.getPhone());
             statement.setString(3, contact.getName());
@@ -121,7 +121,7 @@ public class ContactManager {
      */
     public void deleteContact(Contact contact) throws SQLException {
         String query = "DELETE FROM contacts WHERE name = ? AND phone = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query);) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, contact.getName());
             statement.setString(2, contact.getPhone()); // 确保通过 name 和 phone 一起定位联系人
             statement.executeUpdate();
